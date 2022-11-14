@@ -26,6 +26,8 @@ func New() *Queue {
 }
 
 func (q *Queue) Pop() interface{} {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
 	if q.headFirst == nil {
 		return nil
 	}
@@ -42,6 +44,8 @@ func (q *Queue) Pop() interface{} {
 }
 
 func (q *Queue) Push(val interface{}, prior bool) {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
 	newItem := &item{
 		value: val,
 	}
@@ -71,6 +75,8 @@ func (q *Queue) Push(val interface{}, prior bool) {
 }
 
 func (q *Queue) ToString() string {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
 	sb := strings.Builder{}
 	cur := q.headFirst
 	for cur != nil {
